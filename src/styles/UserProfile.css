@@ -1,0 +1,12 @@
+#up-main{
+  width: 100%;
+}
+#up-body{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+
+  border: 2px solid red;
+}
