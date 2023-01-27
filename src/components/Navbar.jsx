@@ -4,7 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
@@ -15,8 +14,9 @@ import { Login } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
 // Firebase
-import {auth, provider} from "../config/Firebase";
+import {auth, provider, db} from "../config/Firebase";
 import { signInWithPopup, signOut } from 'firebase/auth';
+import {addDoc, collection} from "firebase/firestore";
 
 // react firebase hooks
 import {useAuthState} from "react-firebase-hooks/auth";
@@ -63,15 +63,10 @@ export default function Navbar() {
   // Google SignIn Auth Popup
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
+  const userRef = collection(db, 'users');
   const signInPopup = async () => {
       const result = await signInWithPopup(auth, provider);
 
-      // await setDoc(doc(db, "cities", "LA"), {
-      //   name: "Los Angeles",
-      //   state: "CA",
-      //   country: "USA"
-      // });
-      
       console.log(result);
       LoginDialog_handleClose();
       navigate('/');
@@ -107,7 +102,7 @@ export default function Navbar() {
     <Link  style={{textDecoration:'none', color:'black'}}  to="project">
           <Typography sx={{ minWidth: 100 }}>Project</Typography>
     </Link>
-          <Typography sx={{ maxWidth: 100, color:'blue'}}>{user?.displayName}</Typography>
+          <Typography sx={{ maxWidth: 100, color:'blue'}}>{user ? user?.displayName : "Not Signed"}</Typography>
           <Tooltip title="Account settings">
             <IconButton variant="contained"
               onClick={handleClick}
@@ -117,7 +112,7 @@ export default function Navbar() {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              {user ? <Avatar alt="Profile Pic" src={user?.photoURL} sx={{ width: 32, height: 32 }}></Avatar> : <Avatar  sx={{ width: 32, height: 32 }}></Avatar>}
+              {user ? <Avatar alt={user?.displayName} src={user?.photoURL} sx={{ width: 32, height: 32 }}></Avatar> : <Avatar  sx={{ width: 32, height: 32 }}></Avatar>}
             </IconButton>
           </Tooltip>
         </Box>

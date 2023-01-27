@@ -1,0 +1,19 @@
+#pd-main #pd-body{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+#pd-body{
+    /* border: 2px solid red; */
+}
+#pd-form{
+    text-align: center;
+    margin: 20px;
+}
+#pd-Box{
+    /* border: 2px solid blue; */
+    margin: 10px;
+}

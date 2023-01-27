@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from './components/Navbar'
 import OrganisationProfile from './pages/OrganisationProfile';
@@ -12,11 +12,15 @@ import UserProfile from './pages/UserProfile';
 import MyAccount from './pages/MyAccount';
 import PersonalDetail from './pages/PersonalDetail';
 
+import {auth} from "./config/Firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 const App = () => {
 
+  const [user] = useAuthState(auth);
 
 
   const theme = createTheme({
@@ -49,7 +53,7 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/team" element={<Team />} />
             <Route path="/project" element={<Project />} />
-            <Route path='my-account' element={<MyAccount />}>
+            <Route path='my-account' element={user ? <MyAccount /> : <Navigate to='/'/>}>
               <Route path="user-profile" element={<UserProfile />} />
               <Route path="org-profile" element={<OrganisationProfile />} />
               <Route path="personal-detail" element={<PersonalDetail />} />
