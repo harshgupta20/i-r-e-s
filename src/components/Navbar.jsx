@@ -102,6 +102,9 @@ export default function Navbar() {
     <Link  style={{textDecoration:'none', color:'black'}}  to="project">
           <Typography sx={{ minWidth: 100 }}>Project</Typography>
     </Link>
+    <Link  style={{textDecoration:'none', color:'black'}}  to="verify-docs">
+          <Typography sx={{ minWidth: 100 }}>Verify Docs</Typography>
+    </Link>
           <Typography sx={{ maxWidth: 100, color:'blue'}}>{user ? user?.displayName : "Not Signed"}</Typography>
           <Tooltip title="Account settings">
             <IconButton variant="contained"

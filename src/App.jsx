@@ -16,6 +16,7 @@ import {auth} from "./config/Firebase";
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import VerifyDoc from './pages/VerifyDoc';
 
 
 const App = () => {
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/verify-docs" element={<VerifyDoc />} />
             <Route path="/team" element={<Team />} />
             <Route path="/project" element={<Project />} />
             <Route path='my-account' element={user ? <MyAccount /> : <Navigate to='/'/>}>
