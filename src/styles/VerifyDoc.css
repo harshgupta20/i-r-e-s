@@ -1,0 +1,32 @@
+#vd-main #vd-body #vd-title{ 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#vd-title{
+    /* border: 2px solid red; */
+}
+#vd-content{
+    display: flex;
+    justify-content: space-between;
+    /* border: 2px solid red; */
+    margin: 20px;
+}
+#vd-c-upload{
+    min-width: 40% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 2px solid blue; */
+    padding: 50px;
+}
+#vd-c-icon{
+    min-width: 15%;
+    /* border: 2px solid blue; */
+}
+#vd-c-info{
+    min-width: 40%;
+    /* border: 2px solid blue; */
+}
