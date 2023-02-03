@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import "../styles/VerifyDoc.css";
 import { Button, Typography } from '@mui/material'
 import Box from '@mui/material/Box';
@@ -11,8 +11,8 @@ import Grid from '@mui/material/Grid';
 import { sha256 } from "crypto-hash";
 
 // FIREBASE
-import { collection, query, where, getDocs, QuerySnapshot, doc } from "firebase/firestore";
-import {db} from "../config/Firebase";
+import { collection, query, where, getDocs, } from "firebase/firestore";
+import { db } from "../config/Firebase";
 
 
 
@@ -23,7 +23,6 @@ const VerifyDoc = () => {
 
 
   // -------------------APPLYING HASHING ALGORITHM ON DOCUMENTS------------------
-  let hashValue = [];
   let [output, setOutput] = useState('');
   // For handling file input
   const handleFileInput = (e) => {
@@ -37,16 +36,11 @@ const VerifyDoc = () => {
       result = await sha256(fr.result);
       // Setting the hashed text as the output
       // console.log("result:");
-      console.log(result);
+      // console.log(result);
       // hashValue.push(result);
 
       setOutput(result); //2
       // console.log("output:");
-
-
-
-
-
     }
     // Reading the file.
     fr.readAsText(e.target.files[0]);
@@ -55,24 +49,36 @@ const VerifyDoc = () => {
 
 
   // CHECKING THE DOC IN FIRESTORE 
-  const [doc_data, setDoc_data] = useState();
+  const [doc_data, setDoc_data] = useState([]);
   const checkDocInFirebase = async () => {
-    const q = query(collection(db, "all_docs"), where("doc_hash", "==", output));
-    const querySnapshot = await getDocs(q);
-    // Mapping Data to collect object from firebase into useState variable of react
-    setDoc_data(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+    console.log("checkDocInFirebase");
+    if (output === "") {
+      alert("File input is empty");
+    } else {
+      const q = query(collection(db, "all_docs"), where("doc_hash", "==", output));
+      const querySnapshot = await getDocs(q);
+      // Mapping Data to collect object from firebase into useState variable of react
+      if(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) == ""){
+        setDoc_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        alert("Data not found!!!");
+      }else{
+        setDoc_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      }
+      // console.log("inside");
+      // console.log(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
+    }
   }
 
-  console.log("doc_data")
-  console.log(doc_data[0]);
-  console.log("doc_data end");
+  // console.log(output);
+  // console.log("doc_data")
+  // console.log(doc_data);
+  // console.log("doc_data end");
 
 
-  useEffect(() => {
-    checkDocInFirebase();
-  }, [output])
+  // useEffect(() => {
+  //   checkDocInFirebase();
+  // }, [output])
 
-  console.log(output);
   return (
     <>
       <div id="vd-main">
@@ -86,46 +92,84 @@ const VerifyDoc = () => {
           <div id="vd-content">
             <div id="vd-c-upload">
               <input onChange={(e) => { handleFileInput(e) }} style={{ width: "100%", height: "200px", margin: "20px", backgroundColor: "#757ce8" }} type="file" name="" id="" />
-              <Button fullWidth variant='contained'>Submit</Button>
+              <Button style={{width:"100%"}} onClick={checkDocInFirebase} variant='contained'>Submit</Button>
             </div>
             <div id="vd-c-icon">
-              {output == "" ? "Empty" : output}
+              {/* Middle Image for result visual appearance */}
+              {doc_data == "" ? <img src="./assets/img/scanPrint.gif" style={{ width:"100px"}} alt="scanPrintImg" /> : <>{doc_data[0].verified_status=="true" ? <img src="./assets/img/signOfVerified.gif" style={{ width:"100px"}} alt="signOfVerify" /> : <img src="./assets/img/signOfUnVerified.gif" style={{ width:"100px"}} alt="signOfUnVerified" />}</>}
             </div>
             <div id="vd-c-info">
               <div id="vd-info-body">
                 <Typography style={{ fontWeight: "bold", fontSize: "20px", margin: "20px" }} >Results for Upload File</Typography>
 
                 <div id="vd-c-info-table">
-                  <Box style={{}} fullWidth>
+                  <Box style={{}} >
                     <Grid style={{}}>
-                      <List>
-
+                      {doc_data == "" ? "" : <List>
+                        {/* // MAPPING THE FIELDS WHICH IS HARDCCODED AT THE FUNCTION START */}
                         <ListItem
-                          secondaryAction={
-                            <>
-                              text
-                            </>
-                          }
-                        >
+                          secondaryAction={<><Typography>{doc_data[0].verified_status}</Typography></>}>
+                          {/* MAPPING THE DATA GOT FROM FIRESTORE */}
                           <ListItemText
-                            primary="Single-line item"
+                            primary="Verified Status"
                             secondary={secondary ? 'Secondary text' : null}
                           />
                         </ListItem>
                         <ListItem
-                          secondaryAction={
-                            <>
-                              text
-                            </>
-                          }
-                        >
+                          secondaryAction={<><Typography>{doc_data[0].name}</Typography></>}>
+                          {/* MAPPING THE DATA GOT FROM FIRESTORE */}
                           <ListItemText
-                            primary="Single-line item"
-                            secondary={!secondary ? 'Secondary text' : null}
+                            primary="Uploader Name"
+                            secondary={secondary ? 'Secondary text' : null}
                           />
                         </ListItem>
-
-                      </List>
+                        <ListItem
+                          secondaryAction={<><Typography>{doc_data[0].email}</Typography></>}>
+                          {/* MAPPING THE DATA GOT FROM FIRESTORE */}
+                          <ListItemText
+                            primary="Uploader Email"
+                            secondary={secondary ? 'Secondary text' : null}
+                          />
+                        </ListItem>
+                        <ListItem
+                          secondaryAction={<><Typography>{doc_data[0].published_date}</Typography></>}>
+                          {/* MAPPING THE DATA GOT FROM FIRESTORE */}
+                          <ListItemText
+                            primary="Upload Date"
+                            secondary={secondary ? 'YYYY-MM-DD' : null}
+                          />
+                        </ListItem>
+                      </List>}
+                      {/* <List>
+                        <ListItem
+                          secondaryAction={<><Typography> Status</Typography></>}>
+                          <ListItemText
+                            primary="Verified Status"
+                            secondary={secondary ? 'Secondary text' : null}
+                          />
+                        </ListItem>
+                        <ListItem
+                          secondaryAction={<><Typography>Uploader Name</Typography></>}>
+                          <ListItemText
+                            primary="Uploader Name"
+                            secondary={secondary ? 'Secondary text' : null}
+                          />
+                        </ListItem>
+                        <ListItem
+                          secondaryAction={<><Typography>Verified Status</Typography></>}>
+                          <ListItemText
+                            primary="Uploader Email"
+                            secondary={secondary ? 'Secondary text' : null}
+                          />
+                        </ListItem>
+                        <ListItem
+                          secondaryAction={<><Typography>Upload Date</Typography></>}>
+                          <ListItemText
+                            primary="Upload Date"
+                            secondary={secondary ? 'Secondary text' : null}
+                          />
+                        </ListItem>
+                      </List> */}
                     </Grid>
                   </Box>
                 </div>

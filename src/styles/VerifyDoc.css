@@ -24,6 +24,9 @@
 }
 #vd-c-icon{
     min-width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* border: 2px solid blue; */
 }
 #vd-c-info{
