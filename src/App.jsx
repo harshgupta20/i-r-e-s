@@ -19,6 +19,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import VerifyDoc from './pages/VerifyDoc';
 
 
+
 const App = () => {
 
   const [user] = useAuthState(auth);
@@ -62,8 +63,6 @@ const App = () => {
             </Route>
           </Routes>
         </Router>
-
-
       </ThemeProvider>
     </>
     // <div>App</div>

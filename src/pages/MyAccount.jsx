@@ -4,8 +4,9 @@ import UserProfile from './UserProfile';
 import UploadDocs from './UploadDocs';
 import History from './History';
 import PersonalDetail from "./PersonalDetail";
+import AuthorizeDoc from "./AuthorizeDoc";
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -17,7 +18,7 @@ import HelpCenter from "./HelpCenter";
 
 import { auth, db } from '../config/Firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, getDoc} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 
 function TabPanel(props) {
@@ -63,19 +64,47 @@ const MyAccount = () => {
         setValue(newValue);
     };
 
+    // const [tempData, setTempData] = useState("");
+    // const testingData = async () => {
+    //     const docRef = doc(db, "users", user.uid);
+    //     const docSnap = await getDoc(docRef);
+    //     if(!docSnap.data()){
+    //         alert("Data is Unavailable, Kindly seek help from 'HELP CENTER' ");
+    //     }else{
+    //         userData = docSnap.data();
+    //         // console.log(docSnap.data());
+    //         setTempData(userData);
+    //     }  
+    // }
+
+
+
+
 
     // ----------------------------------------------------------------
-    var userDataVar = {};
+    var [userDataVar, setUserDataVar] = useState();
+    const [userRegistered, setUserRegistered] = useState(false);
+    const [userAuthStatus, setUserAuthStatus] = useState(false);
+    // Function to Fetch Logged-In user Data
     const gettingUserData = async () => {
         const userData = await getDoc(doc(db, "users", user.uid));
-        userDataVar = userData.data();
-        console.log(userDataVar);
+        setUserDataVar(userData.data());
+        // Checking the user has registered or not and Verifying the Status of "Authorizer"
+        if (userData.data()) {
+            setUserRegistered(true);
+            if (userData.data().verified_status == "authorizer") {
+                setUserAuthStatus(true);
+            }
+        }
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         gettingUserData();
-    },[])
-// -------------------------------------------------------------------------------
+        // userDataScanning();
+    }, []);
+
+
+    // -------------------------------------------------------------------------------
 
     return (
         <>
@@ -94,32 +123,44 @@ const MyAccount = () => {
                         aria-label="Vertical tabs example"
                         sx={{ borderRight: 1, borderColor: 'divider' }}
                     >
-                        <Tab style={{ padding: '30px' }} label="Profile" {...a11yProps(0)} />
-                        <Tab style={{ padding: '30px' }} label="Upload Documents" {...a11yProps(1)} />
-                        <Tab style={{ padding: '30px' }} label="History" {...a11yProps(2)} />
-                        <Tab style={{ padding: '30px' }} label="Contact" {...a11yProps(3)} />
-                        <Tab style={{ padding: '30px' }} label="Personal Information" {...a11yProps(4)} />
-                        <Tab style={{ padding: '30px' }} label="Help Center" {...a11yProps(5)} />
+                        <Tab style={{ padding: '30px' }} label="Profile" />
+                        {(userRegistered && !userAuthStatus )  ? <Tab style={{ padding: '30px' }} label="Upload Documents" /> : ""}
+                        {(userRegistered && !userAuthStatus )  ? <Tab style={{ padding: '30px' }} label="History" /> : ""}
+                        {(userRegistered && userAuthStatus) && <Tab style={{ padding: '30px' }} label="Authorize Documents" />}
+                        {/* <Tab style={{ padding: '30px' }} label="Authorize Documents" /> */}
+                        <Tab style={{ padding: '30px' }} label="Contact" />
+                        <Tab style={{ padding: '30px' }} label="Personal Information" />
+                        <Tab style={{ padding: '30px' }} label="Help Center" />
                         {/* <Tab label="Item Seven" {...a11yProps(6)} /> */}
                     </Tabs>
+                    {/* Profile Tab */}
                     <TabPanel style={{ width: '100%' }} value={value} index={0}>
                         <UserProfile />
                     </TabPanel>
-                    <TabPanel style={{ width: '100%' }} value={value} index={1}>
-                        <UploadDocs />
-                    </TabPanel>
-                    <TabPanel style={{ width: '100%' }} value={value} index={2}>
-                        <History />
-                    </TabPanel>
-                    <TabPanel style={{ width: '100%' }} value={value} index={3}>
+                    {/* Contact Tab */}
+                    <TabPanel style={{ width: '100%' }} value={value} index={!userRegistered ? 1 : userAuthStatus ? 2 : 3}>
                         <Contact />
                     </TabPanel>
-                    <TabPanel style={{ width: '100%' }} value={value} index={4}>
+                    {/* Personal Details Tab */}
+                    <TabPanel style={{ width: '100%' }} value={value} index={!userRegistered ? 2 : userAuthStatus ? 3 : 4}>
                         <PersonalDetail />
                     </TabPanel>
-                    <TabPanel style={{ width: '100%' }} value={value} index={5}>
+                    {/* Help Center Tab */}
+                    <TabPanel style={{ width: '100%' }} value={value} index={!userRegistered ? 3 : userAuthStatus ? 4 : 5}>
                         <HelpCenter />
                     </TabPanel>
+
+                    {/* Check if user is registered or not */}
+                    {(userRegistered && !userAuthStatus )  ? <TabPanel style={{ width: '100%' }} value={value} index={1}>
+                        <UploadDocs />
+                    </TabPanel> : ""}
+                    {(userRegistered && !userAuthStatus ) ? <TabPanel style={{ width: '100%' }} value={value} index={2}>
+                        <History />
+                    </TabPanel> : ""}
+
+                    {(userRegistered && userAuthStatus) ? <TabPanel style={{ width: '100%' }} value={value} index={(userRegistered && userAuthStatus) && 1}>
+                        <AuthorizeDoc />
+                    </TabPanel> : "" }
                 </Box>
 
 

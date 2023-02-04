@@ -50,6 +50,8 @@ const PersonalDetail = () => {
       <div id="pd-main">
         <div id="pd-body">
           <Typography>Enter Your Information</Typography>
+          <Typography color="primary">Want to become Authorizer? Follow the steps in "Help Center"</Typography>
+
           <div id="pd-form">
 
             <Box id="pd-Box"

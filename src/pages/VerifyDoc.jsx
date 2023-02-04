@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "../styles/VerifyDoc.css";
-import { Button, Typography } from '@mui/material'
+import { Alert, AlertTitle, Button, Typography } from '@mui/material'
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -58,26 +58,15 @@ const VerifyDoc = () => {
       const q = query(collection(db, "all_docs"), where("doc_hash", "==", output));
       const querySnapshot = await getDocs(q);
       // Mapping Data to collect object from firebase into useState variable of react
-      if(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) == ""){
+      if (querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })) == "") {
         setDoc_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         alert("Data not found!!!");
-      }else{
+      } else {
         setDoc_data(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       }
-      // console.log("inside");
-      // console.log(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id})));
     }
   }
 
-  // console.log(output);
-  // console.log("doc_data")
-  // console.log(doc_data);
-  // console.log("doc_data end");
-
-
-  // useEffect(() => {
-  //   checkDocInFirebase();
-  // }, [output])
 
   return (
     <>
@@ -92,11 +81,11 @@ const VerifyDoc = () => {
           <div id="vd-content">
             <div id="vd-c-upload">
               <input onChange={(e) => { handleFileInput(e) }} style={{ width: "100%", height: "200px", margin: "20px", backgroundColor: "#757ce8" }} type="file" name="" id="" />
-              <Button style={{width:"100%"}} onClick={checkDocInFirebase} variant='contained'>Submit</Button>
+              <Button style={{ width: "100%" }} onClick={checkDocInFirebase} variant='contained'>Submit</Button>
             </div>
             <div id="vd-c-icon">
               {/* Middle Image for result visual appearance */}
-              {doc_data == "" ? <img src="./assets/img/scanPrint.gif" style={{ width:"100px"}} alt="scanPrintImg" /> : <>{doc_data[0].verified_status=="true" ? <img src="./assets/img/signOfVerified.gif" style={{ width:"100px"}} alt="signOfVerify" /> : <img src="./assets/img/signOfUnVerified.gif" style={{ width:"100px"}} alt="signOfUnVerified" />}</>}
+              {doc_data == "" ? <img src="./assets/img/scanPrint.gif" style={{ width: "100px" }} alt="scanPrintImg" /> : <>{doc_data[0].verified_status == "true" ? <img src="./assets/img/signOfVerified.gif" style={{ width: "100px" }} alt="signOfVerify" /> : <img src="./assets/img/signOfUnVerified.gif" style={{ width: "100px" }} alt="signOfUnVerified" />}</>}
             </div>
             <div id="vd-c-info">
               <div id="vd-info-body">
