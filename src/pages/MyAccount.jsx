@@ -64,26 +64,13 @@ const MyAccount = () => {
         setValue(newValue);
     };
 
-    // const [tempData, setTempData] = useState("");
-    // const testingData = async () => {
-    //     const docRef = doc(db, "users", user.uid);
-    //     const docSnap = await getDoc(docRef);
-    //     if(!docSnap.data()){
-    //         alert("Data is Unavailable, Kindly seek help from 'HELP CENTER' ");
-    //     }else{
-    //         userData = docSnap.data();
-    //         // console.log(docSnap.data());
-    //         setTempData(userData);
-    //     }  
-    // }
-
-
-
-
 
     // ----------------------------------------------------------------
+    //To store the data from firebase
     var [userDataVar, setUserDataVar] = useState();
+    //To store the result of whether users completed the step to fill personal data
     const [userRegistered, setUserRegistered] = useState(false);
+    //To check whether the logged-in user has the authority status as "Authorizer"
     const [userAuthStatus, setUserAuthStatus] = useState(false);
     // Function to Fetch Logged-In user Data
     const gettingUserData = async () => {
@@ -127,33 +114,33 @@ const MyAccount = () => {
                         {(userRegistered && !userAuthStatus )  ? <Tab style={{ padding: '30px' }} label="Upload Documents" /> : ""}
                         {(userRegistered && !userAuthStatus )  ? <Tab style={{ padding: '30px' }} label="History" /> : ""}
                         {(userRegistered && userAuthStatus) && <Tab style={{ padding: '30px' }} label="Authorize Documents" />}
-                        {/* <Tab style={{ padding: '30px' }} label="Authorize Documents" /> */}
                         <Tab style={{ padding: '30px' }} label="Contact" />
                         <Tab style={{ padding: '30px' }} label="Personal Information" />
                         <Tab style={{ padding: '30px' }} label="Help Center" />
-                        {/* <Tab label="Item Seven" {...a11yProps(6)} /> */}
                     </Tabs>
-                    {/* Profile Tab */}
+                    {/* Profile Tab (Visible to all users)*/}
                     <TabPanel style={{ width: '100%' }} value={value} index={0}>
                         <UserProfile />
                     </TabPanel>
-                    {/* Contact Tab */}
+                    {/* Contact Tab (Visible to all users) */}
                     <TabPanel style={{ width: '100%' }} value={value} index={!userRegistered ? 1 : userAuthStatus ? 2 : 3}>
                         <Contact />
                     </TabPanel>
-                    {/* Personal Details Tab */}
+                    {/* Personal Details Tab  (Visible to all users)*/}
                     <TabPanel style={{ width: '100%' }} value={value} index={!userRegistered ? 2 : userAuthStatus ? 3 : 4}>
                         <PersonalDetail />
                     </TabPanel>
-                    {/* Help Center Tab */}
+                    {/* Help Center Tab (Visible to all users)*/}
                     <TabPanel style={{ width: '100%' }} value={value} index={!userRegistered ? 3 : userAuthStatus ? 4 : 5}>
                         <HelpCenter />
                     </TabPanel>
 
                     {/* Check if user is registered or not */}
+                    {/* Upload Document Tab(Only visible to Users) */}
                     {(userRegistered && !userAuthStatus )  ? <TabPanel style={{ width: '100%' }} value={value} index={1}>
                         <UploadDocs />
                     </TabPanel> : ""}
+                    {/* History Tab(Only visible to users) */}
                     {(userRegistered && !userAuthStatus ) ? <TabPanel style={{ width: '100%' }} value={value} index={2}>
                         <History />
                     </TabPanel> : ""}
