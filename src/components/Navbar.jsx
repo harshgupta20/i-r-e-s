@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar'; 
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -16,7 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 // Firebase
 import {auth, provider, db} from "../config/Firebase";
 import { signInWithPopup, signOut } from 'firebase/auth';
-import {addDoc, collection} from "firebase/firestore";
+import {collection} from "firebase/firestore";
 
 // react firebase hooks
 import {useAuthState} from "react-firebase-hooks/auth";
@@ -87,25 +87,25 @@ export default function Navbar() {
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' }}>
-        <Link  style={{textDecoration:'none', color:'black'}}  to="/"><Typography fontSize={40}>IRES</Typography></Link>
+        <Link  style={{textDecoration:'none', color:'white'}}  to="/"><Typography fontSize={40}>IRES</Typography></Link>
         <Box variant="contained" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center',}}>
 
-    <Link style={{textDecoration:'none', color:'black'}} to="/about">
+    <Link style={{textDecoration:'none', color:'white'}} to="/about">
           <Typography sx={{ minWidth: 100}}>About</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'black'}}  to="contact">
+    <Link  style={{textDecoration:'none', color:'white'}}  to="contact">
           <Typography sx={{ minWidth: 100 }}>Contact</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'black'}}  to="team">
+    <Link  style={{textDecoration:'none', color:'white'}}  to="team">
           <Typography sx={{ minWidth: 100 }}>Team</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'black'}}  to="project">
+    <Link  style={{textDecoration:'none', color:'white'}}  to="project">
           <Typography sx={{ minWidth: 100 }}>Project</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'black'}}  to="verify-docs">
+    <Link  style={{textDecoration:'none', color:'white'}}  to="verify-docs">
           <Typography sx={{ minWidth: 100 }}>Verify Docs</Typography>
     </Link>
-          <Typography sx={{ maxWidth: 100, color:'blue'}}>{user ? user?.displayName : "Not Signed"}</Typography>
+          <Typography sx={{ maxWidth: 100, color:'primary'}}>{user ? user?.displayName : "Not Signed"}</Typography>
           <Tooltip title="Account settings">
             <IconButton variant="contained"
               onClick={handleClick}
