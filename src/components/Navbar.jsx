@@ -10,6 +10,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { Login } from '@mui/icons-material';
 
+import "../styles/Navbar.css";
+
 // React Router Dom
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -86,7 +88,7 @@ export default function Navbar() {
 
   return (
     <React.Fragment>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' }}>
+      <Box id="my-navbar-main" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' }}>
         <Link  style={{textDecoration:'none', color:'black'}}  to="/"><Typography fontSize={40}>IRES</Typography></Link>
         <Box variant="contained" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center',}}>
 
