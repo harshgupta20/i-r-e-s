@@ -87,22 +87,22 @@ export default function Navbar() {
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' }}>
-        <Link  style={{textDecoration:'none', color:'white'}}  to="/"><Typography fontSize={40}>IRES</Typography></Link>
+        <Link  style={{textDecoration:'none', color:'black'}}  to="/"><Typography fontSize={40}>IRES</Typography></Link>
         <Box variant="contained" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center',}}>
 
-    <Link style={{textDecoration:'none', color:'white'}} to="/about">
+    <Link style={{textDecoration:'none', color:'black'}} to="/about">
           <Typography sx={{ minWidth: 100}}>About</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'white'}}  to="contact">
+    <Link  style={{textDecoration:'none', color:'black'}}  to="contact">
           <Typography sx={{ minWidth: 100 }}>Contact</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'white'}}  to="team">
+    <Link  style={{textDecoration:'none', color:'black'}}  to="team">
           <Typography sx={{ minWidth: 100 }}>Team</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'white'}}  to="project">
+    <Link  style={{textDecoration:'none', color:'black'}}  to="project">
           <Typography sx={{ minWidth: 100 }}>Project</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'white'}}  to="verify-docs">
+    <Link  style={{textDecoration:'none', color:'black'}}  to="verify-docs">
           <Typography sx={{ minWidth: 100 }}>Verify Docs</Typography>
     </Link>
           <Typography sx={{ maxWidth: 100, color:'primary'}}>{user ? user?.displayName : "Not Signed"}</Typography>

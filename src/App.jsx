@@ -5,7 +5,6 @@ import Navbar from './components/Navbar'
 import OrganisationProfile from './pages/OrganisationProfile';
 import Home from './pages/Home';
 import About from './pages/common/About';
-import Contact from './pages/common/Contact';
 import Team from './pages/common/Team';
 import Project from './pages/common/Project';
 import UserProfile from './pages/UserProfile';
@@ -17,6 +16,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import VerifyDoc from './pages/VerifyDoc';
+import ContactPage from './pages/common/ConactPage';
 
 
 
@@ -52,7 +52,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/verify-docs" element={<VerifyDoc />} />
             <Route path="/team" element={<Team />} />
             <Route path="/project" element={<Project />} />
