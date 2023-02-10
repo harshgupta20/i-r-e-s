@@ -5,7 +5,6 @@ import Navbar from './components/Navbar'
 import OrganisationProfile from './pages/OrganisationProfile';
 import Home from './pages/Home';
 import About from './pages/common/About';
-import Team from './pages/common/Team';
 import Project from './pages/common/Project';
 import UserProfile from './pages/UserProfile';
 import MyAccount from './pages/MyAccount';
@@ -54,7 +53,6 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/verify-docs" element={<VerifyDoc />} />
-            <Route path="/team" element={<Team />} />
             <Route path="/project" element={<Project />} />
             <Route path='my-account' element={user ? <MyAccount /> : <Navigate to='/'/>}>
               <Route path="user-profile" element={<UserProfile />} />
