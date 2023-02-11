@@ -98,9 +98,6 @@ export default function Navbar() {
     <Link  style={{textDecoration:'none', color:'black'}}  to="contact">
           <Typography sx={{ minWidth: 100 }}>Contact</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'black'}}  to="team">
-          <Typography sx={{ minWidth: 100 }}>Team</Typography>
-    </Link>
     <Link  style={{textDecoration:'none', color:'black'}}  to="project">
           <Typography sx={{ minWidth: 100 }}>Project</Typography>
     </Link>
