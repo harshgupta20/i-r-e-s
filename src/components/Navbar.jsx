@@ -71,7 +71,7 @@ export default function Navbar() {
 
       console.log(result);
       LoginDialog_handleClose();
-      navigate('/');
+      navigate('/my-account');
   }
 
   // Google Signout Popup
