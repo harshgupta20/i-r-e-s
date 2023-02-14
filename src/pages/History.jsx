@@ -54,7 +54,7 @@ const History = () => {
                       {data.verified_status == "true" ? <Typography fontSize={25}>Verified <VerifiedUserIcon color='success'/></Typography> : <Typography fontSize={25}>Not Verified <GppBadIcon sx={{ color: red[500] }}/></Typography>}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      L{data.comment}
+                      {data.comment}
                     </Typography>
                   </CardContent>
                   <CardActions>
