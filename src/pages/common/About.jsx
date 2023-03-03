@@ -14,8 +14,10 @@ const About = () => {
 
           <div className="about-content">
             <img src="" alt="" />
-            <Typography>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos consectetur odit doloremque earum nostrum quia repellendus autem nam sint odio error sunt, perferendis id debitis saepe, delectus aperiam repudiandae eos?
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos consectetur odi</Typography>
+            <Typography>The usage of physical documents has become quite inconvenient and inefficient in today’s world.
+This motivates the usage of digital documents for a myriad of purposes. While digital copies of
+documents can be a potential solution to problems of inefficiency in data management, proving
+their authenticity can make document verification problematic.</Typography>
               <br />
             <Typography>Document verification is a complex task involving various challenges and tedious authentication
 processes. Furthermore, distinct types of documents give rise to the need for customized
