@@ -98,9 +98,11 @@ export default function Navbar() {
     <Link  style={{textDecoration:'none', color:'black'}}  to="contact">
           <Typography sx={{ minWidth: 100 }}>Contact</Typography>
     </Link>
-    <Link  style={{textDecoration:'none', color:'black'}}  to="project">
+
+    {/* Project Route in working just this code is commented for hiding the route */}
+    {/* <Link  style={{textDecoration:'none', color:'black'}}  to="project">
           <Typography sx={{ minWidth: 100 }}>Project</Typography>
-    </Link>
+    </Link> */}
     <Link  style={{textDecoration:'none', color:'black'}}  to="verify-docs">
           <Typography sx={{ minWidth: 100 }}>Verify Docs</Typography>
     </Link>

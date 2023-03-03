@@ -8,13 +8,11 @@ const Project = () => {
 
     return (
     <>
-
         User : {user?.displayName}
         UserEmail : {user?.email}
         userUid: {user?.uid}
-        
     </>
   )
 }
 
-export default Project
+export default Project;
