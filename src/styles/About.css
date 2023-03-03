@@ -1,0 +1,11 @@
+.about-main{
+    display: flex;
+    margin: 30px;
+    /* border: 2px solid red; */
+}
+
+.about-body{
+    /* border: 2px solid blue; */
+    margin-left: 20%;
+    margin-right: 20%;
+}
