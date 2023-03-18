@@ -10,6 +10,9 @@ import Grid from '@mui/material/Grid';
 import EmailIcon from '@mui/icons-material/Email';
 import Typography from '@mui/material/Typography';
 
+// Image Of Contact Page
+import Contact_page_img from "../../img/contact-page-pic.svg";
+
 //EMAIL.JS
 import emailjs from '@emailjs/browser';
 
@@ -71,12 +74,13 @@ export default function ContactPage() {
                     sm={4}
                     md={7}
                     sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random)',
+                        backgroundImage: `url(${Contact_page_img})`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
+                        // backgroundSize: 'cover',
                         backgroundPosition: 'center',
+                        width:'90%'
                     }}
                 />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
