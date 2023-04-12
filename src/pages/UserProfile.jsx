@@ -30,7 +30,7 @@ const UserProfile = () => {
         const docSnap = await getDoc(docRef);
 
         if(!docSnap.data()){
-            alert("Data is Unavailable, Kindly seek help from 'HELP CENTER' ");
+            alert("Data is Unavailable (Error Code : P-001), Kindly seek help from 'HELP CENTER' ");
         }else{
             userData = docSnap.data();
             // console.log(docSnap.data());
