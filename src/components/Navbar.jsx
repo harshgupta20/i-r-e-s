@@ -197,8 +197,7 @@ export default function Navbar() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+            I-RE-S platform has all the rights to change and manipulation of data about the users without any prior confirmation, If any user is using this platform and I Agree to the Term&Conditions then he/she is abide by our condition.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
