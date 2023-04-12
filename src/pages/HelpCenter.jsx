@@ -43,18 +43,11 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-
 const HelpCenter = () => {
-
   const [expanded, setExpanded] = React.useState('panel1');
-
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
-
-
-
-
 
 
   // DATA OBJECT
@@ -68,14 +61,12 @@ const HelpCenter = () => {
     },
     {
       sno: "2",
-      mainTitle: "main title",
-      errorCode: "error code",
-      instructions: "ininin",
+      mainTitle: "Request for authorizer",
+      errorCode: "Authorization Access",
+      instructions: "If you wanted to apply as a authorizer, then kindly follow the instructions provided in the link.",
       link: "link.com"
     }
   ]
-
-
 
   return (
     <>
@@ -83,7 +74,6 @@ const HelpCenter = () => {
         <div id="help-body">
           <Typography>Help Center</Typography>
         </div>
-
         <div id="help-err-main">
           {
             helpCenterData.map((data, key) => {
@@ -97,7 +87,7 @@ const HelpCenter = () => {
                     <Typography>
                       {data.instructions}
                       <br />
-                      <a href={data.link}>Link</a>
+                      <a target='_blank' href={data.link}>Link</a>
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
@@ -105,20 +95,6 @@ const HelpCenter = () => {
 
             })
           }
-
-          {/* <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-            <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-              <Typography>Collapsible Group Item #1</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-                sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                sit amet blandit leo lobortis eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion> */}
         </div>
       </div>
     </>
