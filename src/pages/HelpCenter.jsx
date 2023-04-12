@@ -64,7 +64,8 @@ const HelpCenter = () => {
       mainTitle: "Request for authorizer",
       errorCode: "Authorization Access",
       instructions: "If you wanted to apply as a authorizer, then kindly follow the instructions provided in the link.",
-      link: "link.com"
+      link: "",
+      listView: "true"
     }
   ]
 
@@ -87,7 +88,26 @@ const HelpCenter = () => {
                     <Typography>
                       {data.instructions}
                       <br />
-                      <a target='_blank' href={data.link}>Link</a>
+                      {
+                        data.link!=="" ? <a target='_blank' href={data.link}>Click Link for Instructions</a> : ""
+                      }
+                      
+
+                      {
+                        data.listView === "true" ? <>
+                          <ol style={{ marginLeft: '30px' }} >
+                            <li>Go to the "Contact" section</li>
+                            <li>Enter title with : <i>"Request for Authorization Access"</i></li>
+                            <li>Enter message according to your need which states why you want access & whats makes you eligile to become Authorizer and submit</li>
+                          </ol>
+                          <br />
+                          After submitting the contact form, the request will be go to admin and will review your request according to the "Message" you sent. If everything is fine and if you eligible to become authorizer then soon your status will be updated to "Authorizer"
+
+                        </>
+                          : ""
+
+                      }
+                      <br />
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
