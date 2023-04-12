@@ -64,7 +64,7 @@ const HelpCenter = () => {
       mainTitle: "User data Incomplete",
       errorCode: "P-001",
       instructions: "This Error indicates that you have not completed user profile in order to use features of I-RE-S Platfrom. Kindly follow the instructions in the link.",
-      link: "link.com"
+      link: "https://github.com/harshgupta20/i-r-e-s/blob/main/instructions/P-001.md"
     },
     {
       sno: "2",
@@ -96,6 +96,8 @@ const HelpCenter = () => {
                   <AccordionDetails>
                     <Typography>
                       {data.instructions}
+                      <br />
+                      <a href={data.link}>Link</a>
                     </Typography>
                   </AccordionDetails>
                 </Accordion>
