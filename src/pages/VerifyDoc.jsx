@@ -67,6 +67,9 @@ const VerifyDoc = () => {
     }
   }
 
+ 
+
+
 
   return (
     <>
@@ -129,37 +132,7 @@ const VerifyDoc = () => {
                           />
                         </ListItem>
                       </List>}
-                      {/* <List>
-                        <ListItem
-                          secondaryAction={<><Typography> Status</Typography></>}>
-                          <ListItemText
-                            primary="Verified Status"
-                            secondary={secondary ? 'Secondary text' : null}
-                          />
-                        </ListItem>
-                        <ListItem
-                          secondaryAction={<><Typography>Uploader Name</Typography></>}>
-                          <ListItemText
-                            primary="Uploader Name"
-                            secondary={secondary ? 'Secondary text' : null}
-                          />
-                        </ListItem>
-                        <ListItem
-                          secondaryAction={<><Typography>Verified Status</Typography></>}>
-                          <ListItemText
-                            primary="Uploader Email"
-                            secondary={secondary ? 'Secondary text' : null}
-                          />
-                        </ListItem>
-                        <ListItem
-                          secondaryAction={<><Typography>Upload Date</Typography></>}>
-                          <ListItemText
-                            primary="Upload Date"
-                            secondary={secondary ? 'Secondary text' : null}
-                          />
-                        </ListItem>
-                      </List> */}
-                    </Grid>
+                     </Grid>
                   </Box>
                 </div>
 

@@ -11,6 +11,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 
 
+// EMAILJS
+import { useRef } from 'react';
+import emailjs from '@emailjs/browser';
+
 import { db, auth } from '../config/Firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
@@ -45,44 +49,63 @@ const DocsTable = (props) => {
     const q = query(collection(db, 'user_docs', docData.email, 'doc_history'), where("doc_hash", "==", docData.doc_hash));
     const fetchUserDocDeepData = async () => {
         const querySnapshot = await getDocs(q);
-        setUserDocHistoryDocId(querySnapshot.docs.map((doc)=> ({...doc.data(), id: doc.id})));
+        setUserDocHistoryDocId(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
     // console.log(docData.doc_hash);
     // console.log(userDocHistoryDocId);
     //-------------------------------------------------------------------------------------------------------------------
-    
+
     const updateDocData = async () => {
         const userDocsRef = doc(db, 'user_docs', docData.email, 'doc_history', userDocHistoryDocId[0].id)
         const allDocsRef = doc(db, "all_docs", docData.id);
         // console.log("inside Function");
-    if(docData.verified_status=="false"){
-        await updateDoc(allDocsRef, {
-            verified_status: "true",
-            verified_by: user.email
-        });
-        await updateDoc(userDocsRef, {
-            verified_status: "true",
-            verified_by: user.email
-        })
-    }else{
-        await updateDoc(allDocsRef, {
-            verified_status: "false",
-            verified_by: user.email
-        });
-        await updateDoc(userDocsRef, {
-            verified_status: "false",
-            verified_by: user.email
-        })
-    }
+        if (docData.verified_status == "false") {
+            await updateDoc(allDocsRef, {
+                verified_status: "true",
+                verified_by: user.email
+            });
+            await updateDoc(userDocsRef, {
+                verified_status: "true",
+                verified_by: user.email
+            })
+        } else {
+            await updateDoc(allDocsRef, {
+                verified_status: "false",
+                verified_by: user.email
+            });
+            await updateDoc(userDocsRef, {
+                verified_status: "false",
+                verified_by: user.email
+            })
+        }
         // console.log("executed");
+
+
+        //EmailJS Send data
+        // sendEmail();
+
         handleClosePopUp();
+        window.location.reload();
     }
 
 
+    // const form = useRef();
+    // const sendEmail = (e) => {
+    //     e.preventDefault();
+    //     emailjs.sendForm('service_3gdfovd', 'template_44uj3jw', form.current, 'sMGePx0QrjPDPs-Xs')
+    //       .then((result) => {
+    //           console.log(result.text);
+    //       }, (error) => {
+    //           console.log(error.text);
+    //       });
+    //   };
 
-    useEffect(()=>{
+
+
+
+    useEffect(() => {
         fetchUserDocDeepData();
-    },[])
+    }, [])
 
     return (
         <React.Fragment>
@@ -119,7 +142,14 @@ const DocsTable = (props) => {
                 </TableCell>
             </TableRow>
 
-            <Dialog
+
+            {/*------ EmailJS ---------*/}
+            {/* <form style={{display:'none'}} ref={form} onSubmit={sendEmail}>
+                <input value={docData.email} type="email" name="user_email" />
+                <textarea value={`Your have an update on your uploaded document : ${docData.comment}`} name="user_message" />
+            </form> */}
+
+           <Dialog
                 open={openPopUp}
                 TransitionComponent={Transition}
                 keepMounted
