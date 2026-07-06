@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Design tokens.
+ * Every color is a role, expressed as an HSL triplet so Tailwind can apply
+ * alpha (`hsl(var(--x) / 0.5)`). Components reference roles only — never hex.
+ */
+@layer base {
+  :root {
+    --background: 240 20% 99%;
+    --foreground: 240 10% 8%;
+
+    --surface: 0 0% 100%;
+    --surface-muted: 240 20% 97%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 8%;
+
+    --primary: 243 75% 59%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 20% 96%;
+    --secondary-foreground: 240 10% 12%;
+
+    --muted: 240 20% 96%;
+    --muted-foreground: 240 5% 45%;
+
+    --accent: 240 20% 96%;
+    --accent-foreground: 240 10% 12%;
+
+    --success: 142 71% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 48%;
+    --warning-foreground: 240 10% 8%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 15% 90%;
+    --input: 240 15% 87%;
+    --ring: 243 75% 59%;
+
+    --shadow-color: 240 40% 20%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 240 10% 5%;
+    --foreground: 240 10% 96%;
+
+    --surface: 240 10% 7%;
+    --surface-muted: 240 8% 11%;
+
+    --card: 240 10% 8%;
+    --card-foreground: 240 10% 96%;
+
+    --popover: 240 10% 9%;
+    --popover-foreground: 240 10% 96%;
+
+    --primary: 243 82% 68%;
+    --primary-foreground: 240 10% 6%;
+
+    --secondary: 240 6% 14%;
+    --secondary-foreground: 240 10% 96%;
+
+    --muted: 240 6% 14%;
+    --muted-foreground: 240 6% 60%;
+
+    --accent: 240 6% 17%;
+    --accent-foreground: 240 10% 96%;
+
+    --success: 142 63% 48%;
+    --success-foreground: 240 10% 6%;
+
+    --warning: 38 92% 55%;
+    --warning-foreground: 240 10% 6%;
+
+    --destructive: 0 72% 56%;
+    --destructive-foreground: 240 10% 96%;
+
+    --border: 240 6% 16%;
+    --input: 240 6% 20%;
+    --ring: 243 82% 68%;
+
+    --shadow-color: 0 0% 0%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings:
+      'cv02' on,
+      'cv03' on,
+      'cv04' on,
+      'cv11' on;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+
+  /* Focus rings: only for keyboard users */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Refined scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full;
+    background-color: hsl(var(--muted-foreground) / 0.25);
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.45);
+  }
+}
+
+@layer utilities {
+  /* Subtle grid texture for hero / empty backgrounds */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .bg-dot {
+    background-image: radial-gradient(hsl(var(--border)) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  /* Radial fade mask, e.g. to fade a grid at the edges */
+  .mask-radial-faded {
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply bg-surface/70 backdrop-blur-xl backdrop-saturate-150;
+  }
+}

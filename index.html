@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0b0b0f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+
+    <title>I-R-E-S — Verify document authenticity</title>
+    <meta
+      name="description"
+      content="I-R-E-S is a document authenticity platform. Hash your documents, publish a tamper-evident fingerprint, and let anyone verify them in seconds."
+    />
+    <meta property="og:title" content="I-R-E-S — Verify document authenticity" />
+    <meta
+      property="og:description"
+      content="Hash your documents, publish a tamper-evident fingerprint, and let anyone verify them in seconds."
+    />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Set the theme class before paint to avoid a flash of the wrong theme.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('ires-theme')
+          var pref = stored ? JSON.parse(stored).state.theme : 'system'
+          var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          var dark = pref === 'dark' || (pref === 'system' && systemDark)
+          document.documentElement.classList.toggle('dark', dark)
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
+        } catch (_) {}
+      })()
+    </script>
+  </head>
+  <body class="h-full">
+    <div id="root" class="h-full"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

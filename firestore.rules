@@ -1,0 +1,70 @@
+rules_version = '2';
+
+// I-R-E-S Firestore security rules.
+// These enforce the trust boundary the app depends on: verification status can
+// only be changed by authorizers, and users cannot escalate their own role.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAuthorizer() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.verified_status == 'authorizer';
+    }
+
+    // ---- User profiles ---------------------------------------------------
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+
+      // A user may create their own profile but only as a regular 'user'.
+      allow create: if isOwner(uid)
+        && request.resource.data.verified_status == 'user';
+
+      // Updates are allowed, but the role field is immutable to the user —
+      // promoting to 'authorizer' is an admin/console action.
+      allow update: if isOwner(uid)
+        && request.resource.data.verified_status == resource.data.verified_status;
+
+      allow delete: if false;
+    }
+
+    // ---- Global document registry ----------------------------------------
+    // Public read so anyone can verify a document by its hash.
+    match /all_docs/{docId} {
+      allow read: if true;
+
+      // Uploads must belong to the signed-in user and start unverified.
+      allow create: if isSignedIn()
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.verified_status == 'false'
+        && request.resource.data.verified_by == null;
+
+      // Only authorizers may change the verification status.
+      allow update: if isAuthorizer();
+
+      allow delete: if false;
+    }
+
+    // ---- Per-user upload index + history ---------------------------------
+    match /user_docs/{email} {
+      allow read: if isSignedIn() && (request.auth.token.email == email || isAuthorizer());
+      allow write: if isSignedIn() && request.auth.token.email == email;
+
+      match /doc_history/{historyId} {
+        allow read: if isSignedIn() && (request.auth.token.email == email || isAuthorizer());
+        allow create: if isSignedIn() && request.auth.token.email == email;
+        // The owner records history; authorizers mirror verification changes.
+        allow update: if isAuthorizer() || (isSignedIn() && request.auth.token.email == email);
+        allow delete: if false;
+      }
+    }
+  }
+}

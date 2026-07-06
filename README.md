@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# I‑R‑E‑S
 
-## Available Scripts
+### Prove your documents are authentic on the internet.
 
-In the project directory, you can run:
+I‑R‑E‑S fingerprints documents with SHA‑256, publishes a tamper‑evident record, and lets **anyone** verify authenticity in seconds — no middlemen, no guesswork.
 
-### `npm start`
+`React 18` · `TypeScript` · `Vite` · `Tailwind` · `Radix UI` · `TanStack Query` · `Firebase`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+</div>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## ✨ What it does
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Verify** — drop any file into the public verifier. It's hashed **locally in your browser**; a matching fingerprint confirms the document is genuine and shows who published it.
+- **Publish** — signed‑in members upload a document; its SHA‑256 fingerprint + metadata are registered.
+- **Authorize** — users with the `authorizer` role review submissions and vouch for authenticity, recording an immutable verification record.
 
-### `npm run build`
+Because the fingerprint is derived from the file's exact bytes, changing a single byte changes the fingerprint — so forgeries simply don't match.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🧱 Tech stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Concern | Choice |
+| --- | --- |
+| Build tool | **Vite 5** (migrated from Create React App) |
+| Language | **TypeScript** (strict) |
+| UI | **Tailwind CSS** + **Radix UI** primitives (a bespoke design system) |
+| Animation | **Framer Motion** |
+| Server state | **TanStack Query** |
+| Client state | **Zustand** (theme, command menu) |
+| Forms | **React Hook Form** + **Zod** |
+| Backend | **Firebase** — Auth, Firestore, Storage |
+| Icons / toasts | **lucide-react** / **sonner** |
+| Testing | **Vitest** + Testing Library |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🚀 Getting started
 
-### `npm run eject`
+```bash
+# 1. Install dependencies (Node 18+)
+npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# 2. Configure environment
+cp .env.example .env
+#    then fill in your Firebase web config (and, optionally, EmailJS)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# 3. Run the dev server
+npm run dev
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The app runs in **demo mode** without Firebase config — the UI is fully browsable, and a banner explains that data features are disabled until `.env` is filled in.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Environment variables
 
-## Learn More
+All client env vars are prefixed `VITE_` (see [`.env.example`](.env.example)):
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Variable | Purpose |
+| --- | --- |
+| `VITE_FIREBASE_*` | Firebase web SDK config (required for auth/data) |
+| `VITE_EMAILJS_*` | EmailJS config for the contact form (optional) |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+> Firebase **web** keys are public identifiers — safe to ship to the browser. Real security is enforced by the [Firestore & Storage rules](#-security) in this repo, not by hiding the keys.
 
-### Code Splitting
+## 📜 Scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Type-check and build for production (`dist/`) |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | ESLint (zero warnings enforced) |
+| `npm run typecheck` | TypeScript, no emit |
+| `npm run test` | Run the Vitest suite |
+| `npm run format` | Prettier |
 
-### Analyzing the Bundle Size
+## 🔐 Security
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Secrets** — `.env` is git‑ignored. If real keys were committed previously, rotate them and scrub history (see below).
+- **Trust boundary** — [`firestore.rules`](firestore.rules) enforce that only `authorizer` accounts can change a document's verification status, uploads always start unverified, and users can't self‑promote their role. [`storage.rules`](storage.rules) restrict uploads to signed‑in users and cap file size.
+- **Hashing** — fingerprints are computed with the Web Crypto API over the file's raw bytes (`crypto.subtle`), so they're correct for binary files like PDFs and images.
 
-### Making a Progressive Web App
+### Rotating leaked keys (one‑time)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+# In the Firebase console: regenerate the web API key / restrict it by referrer.
+# Then scrub .env from git history (choose one):
+pipx run git-filter-repo --path .env --invert-paths     # recommended
+# or: java -jar bfg.jar --delete-files .env && git reflog expire --expire=now --all && git gc --prune=now
+```
 
-### Advanced Configuration
+## 🚢 Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The app is a static SPA. With the Firebase CLI:
 
-### Deployment
+```bash
+npm run build
+firebase deploy --only hosting,firestore:rules,storage
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+`firebase.json` serves `dist/`, rewrites all routes to `index.html`, applies immutable caching to hashed assets, and deploys the security rules.
 
-### `npm run build` fails to minify
+## 📚 More docs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — folder structure, layering, and data flow
+- [`COMPONENT_GUIDE.md`](COMPONENT_GUIDE.md) — the design system
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — conventions and workflow
+- [`AUDIT.md`](AUDIT.md) — the V1 → V2 audit that motivated this rebuild
