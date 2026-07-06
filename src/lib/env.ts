@@ -12,9 +12,25 @@ export const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 } as const
 
-/** True when all required Firebase config values are present. */
-export const isFirebaseConfigured: boolean = Object.values(firebaseConfig).every(
-  (value) => typeof value === 'string' && value.length > 0,
+/**
+ * True when the Firebase essentials for Auth + Firestore are present.
+ * (storageBucket / messagingSenderId are optional — file storage uses Cloudinary.)
+ */
+export const isFirebaseConfigured: boolean = Boolean(
+  firebaseConfig.apiKey &&
+    firebaseConfig.authDomain &&
+    firebaseConfig.projectId &&
+    firebaseConfig.appId,
+)
+
+/** Cloudinary is used for document file storage (unsigned uploads). */
+export const cloudinaryConfig = {
+  cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+  uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+} as const
+
+export const isCloudinaryConfigured: boolean = Boolean(
+  cloudinaryConfig.cloudName && cloudinaryConfig.uploadPreset,
 )
 
 export const emailjsConfig = {

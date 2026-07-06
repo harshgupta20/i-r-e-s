@@ -16,10 +16,6 @@ export const COLLECTIONS = {
   docHistory: 'doc_history',
 } as const
 
-export const STORAGE_PATHS = {
-  documents: 'images',
-} as const
-
 export const APP = {
   name: 'I-R-E-S',
   tagline: 'Verify document authenticity',

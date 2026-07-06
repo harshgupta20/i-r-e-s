@@ -8,10 +8,10 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { format } from 'date-fns'
-import { getDb, getFirebaseStorage } from '@/services/firebase/client'
-import { COLLECTIONS, STORAGE_PATHS } from '@/constants'
+import { getDb } from '@/services/firebase/client'
+import { uploadToCloudinary } from '@/services/cloudinary/client'
+import { COLLECTIONS } from '@/constants'
 import { hashFile } from '@/lib/hash'
 import type {
   AuthUser,
@@ -82,9 +82,7 @@ export async function uploadDocument(
       throw new AppError('This exact file has already been published to the registry.')
     }
 
-    const storageRef = ref(getFirebaseStorage(), `${STORAGE_PATHS.documents}/${hash}`)
-    await uploadBytes(storageRef, file)
-    const fileUrl = await getDownloadURL(storageRef)
+    const { url: fileUrl } = await uploadToCloudinary(file)
 
     const publishedDate = format(new Date(), 'yyyy-MM-dd')
     const record = {

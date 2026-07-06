@@ -46,18 +46,24 @@ export interface ButtonProps
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
+    const classes = cn(buttonVariants({ variant, size, className }))
+
+    // With `asChild`, Radix Slot requires EXACTLY one child — so we must render
+    // `children` alone (no spinner sibling, not even a falsy one, which Slot
+    // counts as a second child). Callers using `asChild` shouldn't pass `loading`.
+    if (asChild) {
+      return (
+        <Slot ref={ref} className={classes} {...props}>
+          {children}
+        </Slot>
+      )
+    }
+
     return (
-      <Comp
-        ref={ref}
-        className={cn(buttonVariants({ variant, size, className }))}
-        disabled={disabled || loading}
-        {...props}
-      >
-        {/* Slot requires a single child, so only inject the spinner for real buttons. */}
-        {loading && !asChild && <Loader2 className="animate-spin" aria-hidden />}
+      <button ref={ref} className={classes} disabled={disabled || loading} {...props}>
+        {loading && <Loader2 className="animate-spin" aria-hidden />}
         {children}
-      </Comp>
+      </button>
     )
   },
 )

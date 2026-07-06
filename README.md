@@ -31,7 +31,8 @@ Because the fingerprint is derived from the file's exact bytes, changing a singl
 | Server state | **TanStack Query** |
 | Client state | **Zustand** (theme, command menu) |
 | Forms | **React Hook Form** + **Zod** |
-| Backend | **Firebase** — Auth, Firestore, Storage |
+| Backend | **Firebase** — Auth + Firestore |
+| File storage | **Cloudinary** — unsigned uploads (no server) |
 | Icons / toasts | **lucide-react** / **sonner** |
 | Testing | **Vitest** + Testing Library |
 
@@ -58,7 +59,12 @@ All client env vars are prefixed `VITE_` (see [`.env.example`](.env.example)):
 | Variable | Purpose |
 | --- | --- |
 | `VITE_FIREBASE_*` | Firebase web SDK config (required for auth/data) |
+| `VITE_CLOUDINARY_CLOUD_NAME` / `VITE_CLOUDINARY_UPLOAD_PRESET` | Cloudinary file storage (required for uploads) |
 | `VITE_EMAILJS_*` | EmailJS config for the contact form (optional) |
+
+> **Cloudinary setup (one-time, no server):** in the Cloudinary console go to
+> **Settings → Upload → Upload presets**, add a preset with **Signing mode: Unsigned**,
+> then put your cloud name and the preset name in `.env`. Uploads post directly from the browser.
 
 > Firebase **web** keys are public identifiers — safe to ship to the browser. Real security is enforced by the [Firestore & Storage rules](#-security) in this repo, not by hiding the keys.
 
@@ -77,7 +83,7 @@ All client env vars are prefixed `VITE_` (see [`.env.example`](.env.example)):
 ## 🔐 Security
 
 - **Secrets** — `.env` is git‑ignored. If real keys were committed previously, rotate them and scrub history (see below).
-- **Trust boundary** — [`firestore.rules`](firestore.rules) enforce that only `authorizer` accounts can change a document's verification status, uploads always start unverified, and users can't self‑promote their role. [`storage.rules`](storage.rules) restrict uploads to signed‑in users and cap file size.
+- **Trust boundary** — [`firestore.rules`](firestore.rules) enforce that only `authorizer` accounts can change a document's verification status, uploads always start unverified, and users can't self‑promote their role. File uploads go to Cloudinary via an unsigned preset (scope it to a folder / limit formats in the Cloudinary console).
 - **Hashing** — fingerprints are computed with the Web Crypto API over the file's raw bytes (`crypto.subtle`), so they're correct for binary files like PDFs and images.
 
 ### Rotating leaked keys (one‑time)
@@ -95,7 +101,7 @@ The app is a static SPA. With the Firebase CLI:
 
 ```bash
 npm run build
-firebase deploy --only hosting,firestore:rules,storage
+firebase deploy --only hosting,firestore:rules
 ```
 
 `firebase.json` serves `dist/`, rewrites all routes to `index.html`, applies immutable caching to hashed assets, and deploys the security rules.

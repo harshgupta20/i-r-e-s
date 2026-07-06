@@ -107,3 +107,4 @@ Design tokens are CSS variables (HSL triplets) in [`globals.css`](src/styles/glo
 - **Bespoke design system over a component library** — Radix primitives + Tailwind give full control of the Linear/Vercel‑grade aesthetic without fighting a theme.
 - **Web Crypto for hashing** — fixes the V1 bug where `readAsText` produced unstable hashes for binary files.
 - **Security rules in‑repo** — the verification trust boundary lives in Firestore rules, not the client.
+- **Cloudinary for file storage** — Firebase Storage now requires the Blaze plan; document files are uploaded straight from the browser via an unsigned Cloudinary preset ([`services/cloudinary`](src/services/cloudinary)), keeping the app on Firebase's free tier for auth + data.

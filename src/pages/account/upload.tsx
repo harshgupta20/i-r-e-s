@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CheckCircle2, ExternalLink, UploadCloud, UserRound } from 'lucide-react'
 import { ROUTES } from '@/constants'
+import { isCloudinaryConfigured } from '@/lib/env'
 import type { DocumentRecord } from '@/types'
 import { useAccount } from '@/features/account/context'
 import { useUploadDocument } from '@/features/documents/hooks'
@@ -95,6 +96,17 @@ export default function UploadPage() {
                 </a>
               </Button>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {!isCloudinaryConfigured && (
+        <Card className="border-warning/30 bg-warning/[0.04]">
+          <CardContent className="p-4 text-sm text-muted-foreground">
+            File storage (Cloudinary) isn’t configured. Set{' '}
+            <code className="font-mono text-xs">VITE_CLOUDINARY_CLOUD_NAME</code> and{' '}
+            <code className="font-mono text-xs">VITE_CLOUDINARY_UPLOAD_PRESET</code> in your{' '}
+            <code className="font-mono text-xs">.env</code> to enable uploads.
           </CardContent>
         </Card>
       )}
